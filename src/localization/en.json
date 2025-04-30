@@ -1,4 +1,6 @@
 {
+    "en": "English",
+    "tr":"Turkish",
     "welcome": "Welcome",
     "select_language": "Please choose a language",
     "language": "Language"

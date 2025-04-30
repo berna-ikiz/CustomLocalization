@@ -5,43 +5,57 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import '../localization/i18n'; 
+import "../localization/i18n";
+import { i18n, TFunction } from "i18next";
 
-type languageType = {
-  label: string;
-  value: string;
-};
+const renderItem = (
+  { item }: { item: string },
+  t: TFunction<"translation", undefined>,
+  i18n: i18n,
+  selectedLanguage: string,
+  setSelectedLanguage: { (value: React.SetStateAction<string>): void; (arg0: string): void; }
+) => {
 
-type renderProps = {
-  item: languageType;
-};
-
-const renderItem = ({ item }: renderProps) => {
+  const handleChangeLang = (lang: string) => {
+    i18n.changeLanguage(lang);
+    setSelectedLanguage(lang);
+  };
   return (
-    <TouchableOpacity style={styles.language}>
-      <Text style={styles.text}>{item.label}</Text>
+    <TouchableOpacity
+      style={selectedLanguage === item
+        ? styles.selectedLanguage
+        : styles.language}
+      onPress={() => handleChangeLang(item)}
+    >
+      <Text style={selectedLanguage === item
+        ? styles.selectedLanguageText
+        : styles.textLang}>{t(item)}</Text>
+      <Text style={styles.textShortLang}>{item}</Text>
     </TouchableOpacity>
   );
 };
 
 const SettingsScreen = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState(null);
-  const { t } = useTranslation();
-  const languages = [
-    { label: "English", value: "en" },
-    { label: "Turkish", value: "tr" },
-  ];
+  const { t, i18n } = useTranslation();
+  const [languages] = useState<string[]>(
+    i18n.options.resources ? Object.keys(i18n.options?.resources) : []
+  );
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("");
+
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.languageTitle}>{t('language')}</Text>
-        <Text style={styles.selectedLanguageTitle}>{t('select_language')}</Text>
+        <Text style={styles.languageTitle}>{t("language")}</Text>
+        <Text style={styles.selectedLanguageTitle}>{t("select_language")}</Text>
       </View>
       <FlatList
         data={languages}
-        renderItem={({ item }) => renderItem({ item })}
+        renderItem={({ item }) =>
+          renderItem({ item }, t, i18n,selectedLanguage,setSelectedLanguage)
+        }
       />
     </View>
   );
@@ -59,26 +73,46 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
-  text: {
-    fontSize: 14,
+  selectedLanguage:{
+    padding: 10,
+    backgroundColor: "#445d7a",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  selectedLanguageText:{
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  textLang: {
+    fontSize: 18,
     color: "#445d7a",
+    fontWeight: "bold",
+  },
+  textShortLang: {
+    fontSize: 16,
+    color: "#c6d8ed",
     fontWeight: "bold",
   },
   languageTitle: {
     paddingTop: 34,
-    fontWeight:"bold",
+    fontWeight: "bold",
     fontSize: 26,
     color: "#445d7a",
   },
   selectedLanguageTitle: {
     padding: 10,
-    fontWeight:'400',
+    fontWeight: "400",
     fontSize: 18,
     color: "#7b8fa7",
   },
-  titleContainer:{
-    justifyContent:'center',
-    alignItems:'center'
-  }
+  titleContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
