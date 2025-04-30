@@ -5,31 +5,32 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, {useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "../localization/i18n";
 import { i18n, TFunction } from "i18next";
+import { useLanguage } from "../../context/LanguageProvider";
 
 const renderItem = (
   { item }: { item: string },
   t: TFunction<"translation", undefined>,
   i18n: i18n,
-  selectedLanguage: string,
-  setSelectedLanguage: { (value: React.SetStateAction<string>): void; (arg0: string): void; }
+  language: string,
+  setLanguage: { (lang: string): void; (arg0: string): void; }
 ) => {
 
   const handleChangeLang = (lang: string) => {
     i18n.changeLanguage(lang);
-    setSelectedLanguage(lang);
+    setLanguage(lang);
   };
   return (
     <TouchableOpacity
-      style={selectedLanguage === item
+      style={language === item
         ? styles.selectedLanguage
         : styles.language}
       onPress={() => handleChangeLang(item)}
     >
-      <Text style={selectedLanguage === item
+      <Text style={language === item
         ? styles.selectedLanguageText
         : styles.textLang}>{t(item)}</Text>
       <Text style={styles.textShortLang}>{item}</Text>
@@ -39,10 +40,7 @@ const renderItem = (
 
 const SettingsScreen = () => {
   const { t, i18n } = useTranslation();
-  const [languages] = useState<string[]>(
-    i18n.options.resources ? Object.keys(i18n.options?.resources) : []
-  );
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("");
+  const {language, setLanguage,languages} = useLanguage();
 
 
   return (
@@ -54,7 +52,7 @@ const SettingsScreen = () => {
       <FlatList
         data={languages}
         renderItem={({ item }) =>
-          renderItem({ item }, t, i18n,selectedLanguage,setSelectedLanguage)
+          renderItem({ item }, t, i18n,language, setLanguage)
         }
       />
     </View>
