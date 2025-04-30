@@ -16,13 +16,16 @@ const renderItem = (
   t: TFunction<"translation", undefined>,
   i18n: i18n,
   language: string,
-  setLanguage: { (lang: string): void; (arg0: string): void; }
+  setLanguage: ((arg0: string) => void) 
 ) => {
 
   const handleChangeLang = (lang: string) => {
-    i18n.changeLanguage(lang);
-    setLanguage(lang);
+    if(lang){
+      i18n.changeLanguage(lang);
+      setLanguage(lang);
+    }
   };
+
   return (
     <TouchableOpacity
       style={language === item
@@ -40,7 +43,7 @@ const renderItem = (
 
 const SettingsScreen = () => {
   const { t, i18n } = useTranslation();
-  const {language, setLanguage,languages} = useLanguage();
+  const {saveSelectedLanguage, languages, language} = useLanguage();
 
 
   return (
@@ -52,7 +55,7 @@ const SettingsScreen = () => {
       <FlatList
         data={languages}
         renderItem={({ item }) =>
-          renderItem({ item }, t, i18n,language, setLanguage)
+          renderItem({ item }, t, i18n, language, saveSelectedLanguage)
         }
       />
     </View>
