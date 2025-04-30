@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, {useContext, useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import "../localization/i18n";
 import { i18n, TFunction } from "i18next";
@@ -21,8 +21,7 @@ const renderItem = (
 
   const handleChangeLang = (lang: string) => {
     if(lang){
-      i18n.changeLanguage(lang);
-      setLanguage(lang);
+      setLanguage(lang)
     }
   };
 
@@ -45,11 +44,11 @@ const SettingsScreen = () => {
   const { t, i18n } = useTranslation();
   const {saveSelectedLanguage, languages, language} = useLanguage();
 
-
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.languageTitle}>{t("language")}</Text>
+        <Text style={styles.languageTitle}>{t(language)}</Text>
+        <Text style={styles.middleTitle}>{t('welcome')}</Text>
         <Text style={styles.selectedLanguageTitle}>{t("select_language")}</Text>
       </View>
       <FlatList
@@ -68,6 +67,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f5f5f5",
+    gap:2
   },
   language: {
     padding: 10,
@@ -91,17 +91,23 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   textLang: {
-    fontSize: 18,
+    fontSize: 24,
     color: "#445d7a",
     fontWeight: "bold",
   },
   textShortLang: {
-    fontSize: 16,
+    fontSize: 10,
     color: "#c6d8ed",
     fontWeight: "bold",
   },
+  middleTitle: {
+    fontSize: 16,
+    color: "#aac4e3",
+    fontWeight:'400',
+    paddingTop:8
+  },
   languageTitle: {
-    paddingTop: 34,
+    paddingTop: 36,
     fontWeight: "bold",
     fontSize: 26,
     color: "#445d7a",
@@ -109,7 +115,7 @@ const styles = StyleSheet.create({
   selectedLanguageTitle: {
     padding: 10,
     fontWeight: "400",
-    fontSize: 18,
+    fontSize: 20,
     color: "#7b8fa7",
   },
   titleContainer: {

@@ -1,7 +1,9 @@
 {
-  "tr":"Türkçe",
-  "en":"İngilizce",
+  "en": "İngilizce",
+  "tr": "Türkçe",
+  "fr": "Fransızca",
+  "de": "Almanca",
+  "es": "İspanyolca",
   "welcome": "Hoş geldiniz",
   "select_language": "Lütfen bir dil seçin",
-  "language": "Türkçe"
 }

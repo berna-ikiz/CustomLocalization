@@ -38,7 +38,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const getSeleactedLanguage = async () => {
     const selectedLanguage = await getLanguage();
     if (selectedLanguage && selectedLanguage !== language) {
-      setLanguage(language);
+      setLanguage(selectedLanguage);
     }
   };
 

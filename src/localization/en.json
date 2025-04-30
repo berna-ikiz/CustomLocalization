@@ -1,7 +1,9 @@
 {
     "en": "English",
-    "tr":"Turkish",
+    "tr": "Turkish",
+    "fr": "French",
+    "de": "German",
+    "es": "Spanish",
     "welcome": "Welcome",
     "select_language": "Please choose a language",
-    "language": "Language"
-}
+  }
