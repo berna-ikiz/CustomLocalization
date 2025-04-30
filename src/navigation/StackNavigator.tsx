@@ -7,11 +7,11 @@ import SettingsScreen from '../screen/SettingsScreen';
 const RootStack = createNativeStackNavigator({
   initialRouteName: 'Settings',
   screenOptions: {
-    headerTintColor: 'white',
-    headerStyle: {
-      backgroundColor: 'tomato',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      fontSize: 20,
+      color:'#445d7a'
     },
-    headerTitle:"Settings"
   },
   screens: {
     Settings: SettingsScreen,

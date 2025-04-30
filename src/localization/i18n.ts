@@ -1,13 +1,16 @@
-import React from "react";
 import i18n from "i18next";
-import { useTranslation, initReactI18next } from "react-i18next";
-import en from "./en";
-import tr from "./tr";
+import { initReactI18next } from "react-i18next";
+import en from "./en.json"
+import tr from "./tr.json"
 
 i18n.use(initReactI18next).init({
   resources: {
-    en: en,
-    tr:tr
+    en: {
+      translation: en
+    },
+    tr: {
+      translation: tr
+    },
   },
   lng: "en",
   fallbackLng: "en",
